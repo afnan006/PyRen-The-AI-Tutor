@@ -10,8 +10,8 @@ function App() {
   return (
     <div className="min-h-screen bg-primary text-accent">
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/" element={<AuthPage />} />
+        <Route path="/homepage" element={<HomePage />} />
         <Route path="/preferences" element={<PreferencesPage />} />
         <Route path="/learn" element={<LearningPage />} />
         <Route path="/profile" element={<ProfilePage />} />

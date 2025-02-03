@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Code, BookOpen, X, Send, Play, Book, ChevronRight, ChevronLeft, Bot } from 'lucide-react';
 import { Button } from '../components/Button';
+import { sendChatMessage } from '../lib/api';
 
 type Tab = 'code' | 'lesson';
 type Message = {
@@ -49,39 +50,60 @@ function LearningPage() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatMessages]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) return;
+  // const handleSendMessage = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!message.trim()) return;
 
-    const userMessage = {
-      role: 'user' as const,
-      content: message,
-      timestamp: new Date()
+  //   const userMessage = {
+  //     role: 'user' as const,
+  //     content: message,
+  //     timestamp: new Date()
+  //   };
+
+  //   setChatMessages(prev => [...prev, userMessage]);
+  //   setMessage('');
+  //   setIsTyping(true);
+
+const handleSendMessage = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!message.trim()) return;
+
+  const userMessage = {
+    role: 'user' as const,
+    content: message,
+    timestamp: new Date()
+  };
+
+  setChatMessages(prev => [...prev, userMessage]);
+  setMessage('');
+
+  setIsTyping(true);
+
+  try {
+    // Call the backend /api/chat endpoint to get a response from OpenAI
+    const response = await sendChatMessage(message, chatMessages.map(msg => ({ role: msg.role, content: msg.content })));
+    const aiResponse = {
+      role: 'assistant' as const,
+      content: response.response,
+      timestamp: new Date(),
     };
-
-    setChatMessages(prev => [...prev, userMessage]);
-    setMessage('');
-    setIsTyping(true);
-
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponse = {
+    setChatMessages(prev => [...prev, aiResponse]);
+  } catch (error) {
+    console.error('Error sending message:', error);
+    setChatMessages(prev => [
+      ...prev,
+      {
         role: 'assistant' as const,
-        content: "That's a great question! Let me explain it in a fun way...",
-        timestamp: new Date()
-      };
-      setChatMessages(prev => [...prev, aiResponse]);
-      setIsTyping(false);
-    }, 1500);
-  };
+        content: "Oops! Something went wrong. Please try again.",
+        timestamp: new Date(),
+      }
+    ]);
+  } finally {
+    setIsTyping(false);
+  }
+};
 
-  const handleRunCode = async () => {
-    setOutput('Running code...');
-    // Simulate code execution
-    setTimeout(() => {
-      setOutput('Hello, Python World!\nCode executed successfully! 🎉');
-    }, 1000);
-  };
+    
 
   return (
     <div className="h-screen flex bg-primary overflow-hidden">
