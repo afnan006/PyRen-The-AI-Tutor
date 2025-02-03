@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-primary text-accent antialiased;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .border-glow {
+    @apply relative;
+  }
+
+  .border-glow::before {
+    content: '';
+    @apply absolute inset-0 rounded-lg;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(139, 159, 247, 0.1) 25%,
+      rgba(139, 159, 247, 0.2) 50%,
+      rgba(139, 159, 247, 0.1) 75%,
+      transparent 100%
+    );
+    animation: borderGlow 3s linear infinite;
+  }
+
+  .border-glow::after {
+    content: '';
+    @apply absolute inset-0 rounded-lg;
+    background: radial-gradient(
+      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(139, 159, 247, 0.15) 0%,
+      transparent 100%
+    );
+  }
+
+  @keyframes borderGlow {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 200% 0%;
+    }
+  }
+
+  .dot-pattern {
+    background-image: radial-gradient(
+      rgba(139, 159, 247, 0.15) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+  }
+
+  .moving-line {
+    @apply absolute inset-0 overflow-hidden pointer-events-none;
+  }
+
+  .moving-line::before {
+    content: '';
+    @apply absolute w-full h-[1px] bg-accent/20;
+    animation: moveLine 8s linear infinite;
+  }
+
+  @keyframes moveLine {
+    0% {
+      transform: translateY(-100%) rotate(45deg);
+    }
+    100% {
+      transform: translateY(200%) rotate(45deg);
+    }
+  }
+}
