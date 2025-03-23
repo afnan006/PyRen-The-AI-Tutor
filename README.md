@@ -2,7 +2,7 @@
 
 ## 🚀 About the Project
 
-**PyREN (Python for ChildREN)** is an AI-powered Python tutor designed to make learning Python fun, interactive, and engaging for children. This **personal hobby project** is currently **under development**, aiming to provide an intelligent tutor that adapts to users' learning preferences, delivers personalized lessons, and allows real-time execution of Python code.
+**PyREN (Python for ChildREN)** is an AI-powered Python tutor designed to make learning Python fun, interactive, and engaging for children. This is a **personal side project for learning and exploring the best approaches of AI Integration and learning solutions** is currently **under development**, aiming to provide an intelligent tutor that adapts to users' learning preferences, delivers personalized lessons, and allows real-time execution of Python code.
 
 Whether you're new to Python or looking for a guided learning experience, PyREN is here to assist!
 
